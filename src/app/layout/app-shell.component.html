@@ -1,0 +1,65 @@
+<div class="flex min-h-screen">
+  <!-- Left nav -->
+  <aside
+    class="fixed inset-y-0 left-0 z-40 w-60 -translate-x-full border-r border-slate-200 bg-white transition-transform md:static md:translate-x-0"
+    [class.translate-x-0]="navOpen()"
+  >
+    <div class="flex h-14 items-center gap-2 border-b border-slate-200 px-4">
+      <span class="grid h-8 w-8 place-items-center rounded-md bg-indigo-600 text-sm font-bold text-white">
+        RB
+      </span>
+      <span class="text-sm font-semibold text-slate-800">Sales Portal</span>
+    </div>
+    <nav class="flex flex-col gap-0.5 p-2" aria-label="Primary">
+      @for (link of links; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="bg-indigo-50 text-indigo-700 font-medium"
+          class="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm text-slate-600 hover:bg-slate-50"
+          (click)="closeNav()"
+        >
+          <span class="w-4 text-center text-slate-400" aria-hidden="true">{{ link.icon }}</span>
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+  </aside>
+
+  <!-- Backdrop for mobile nav -->
+  @if (navOpen()) {
+    <div class="fixed inset-0 z-30 bg-slate-900/30 md:hidden" (click)="closeNav()"></div>
+  }
+
+  <!-- Main column -->
+  <div class="flex min-w-0 flex-1 flex-col">
+    <header class="flex h-14 items-center justify-between border-b border-slate-200 bg-white px-4">
+      <button
+        type="button"
+        class="rounded-md p-1.5 text-slate-500 hover:bg-slate-100 md:hidden"
+        (click)="toggleNav()"
+        aria-label="Toggle navigation"
+      >
+        ☰
+      </button>
+      <div class="ml-auto flex items-center gap-3">
+        @if (user(); as u) {
+          <div class="text-right">
+            <p class="text-sm font-medium text-slate-800">{{ u.name }}</p>
+            <p class="text-xs uppercase tracking-wide text-slate-400">{{ u.role ?? u.account_type }}</p>
+          </div>
+        }
+        <button
+          type="button"
+          class="rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          (click)="signOut()"
+        >
+          Sign out
+        </button>
+      </div>
+    </header>
+
+    <main class="flex-1 overflow-x-hidden p-4 md:p-6">
+      <router-outlet />
+    </main>
+  </div>
+</div>

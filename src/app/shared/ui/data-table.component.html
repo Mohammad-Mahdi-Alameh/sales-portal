@@ -1,0 +1,127 @@
+<div class="flex flex-col gap-3">
+  <!-- Search bar -->
+  <div class="flex items-center justify-between gap-3">
+    <div class="relative w-full max-w-xs">
+      <input
+        type="search"
+        [value]="searchTerm()"
+        (input)="onSearch($any($event.target).value)"
+        [placeholder]="searchPlaceholder()"
+        aria-label="Search"
+        class="w-full rounded-md border border-slate-300 bg-white py-1.5 pl-8 pr-3 text-sm shadow-sm focus:border-indigo-500 focus:outline-none"
+      />
+      <span class="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400">⌕</span>
+    </div>
+    <ng-content select="[tableActions]"></ng-content>
+  </div>
+
+  <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white">
+    <table class="min-w-full divide-y divide-slate-200 text-sm">
+      <thead class="bg-slate-50">
+        <tr>
+          @for (col of columns(); track col.key) {
+            <th
+              scope="col"
+              class="px-4 py-2.5 font-medium text-slate-600"
+              [class.text-left]="!col.align || col.align === 'left'"
+              [class.text-center]="col.align === 'center'"
+              [class.text-right]="col.align === 'right'"
+            >
+              @if (col.sortable) {
+                <button
+                  type="button"
+                  class="inline-flex items-center gap-1 hover:text-slate-900"
+                  (click)="onSort(col)"
+                >
+                  {{ col.label }}
+                  <span class="text-xs text-indigo-500">{{ sortIndicator(col) }}</span>
+                </button>
+              } @else {
+                {{ col.label }}
+              }
+            </th>
+          }
+        </tr>
+      </thead>
+
+      <tbody class="divide-y divide-slate-100">
+        @if (loading()) {
+          @for (r of skeletonRows; track r) {
+            <tr>
+              @for (col of columns(); track col.key) {
+                <td class="px-4 py-3">
+                  <div class="h-3.5 w-full max-w-[8rem] animate-pulse rounded bg-slate-200"></div>
+                </td>
+              }
+            </tr>
+          }
+        } @else if (error()) {
+          <tr>
+            <td [attr.colspan]="columns().length" class="px-4 py-10 text-center">
+              <p class="text-sm font-medium text-red-700">{{ error() }}</p>
+              <button
+                type="button"
+                class="mt-3 rounded-md border border-slate-300 px-3 py-1.5 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                (click)="retry.emit()"
+              >
+                Retry
+              </button>
+            </td>
+          </tr>
+        } @else if (showEmpty()) {
+          <tr>
+            <td [attr.colspan]="columns().length" class="px-4 py-10 text-center">
+              <p class="text-sm font-semibold text-slate-700">{{ emptyTitle() }}</p>
+              <p class="mt-1 text-sm text-slate-500">{{ emptyMessage() }}</p>
+              @if (emptyActionLabel()) {
+                <button
+                  type="button"
+                  class="mt-3 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
+                  (click)="emptyAction.emit()"
+                >
+                  {{ emptyActionLabel() }}
+                </button>
+              }
+            </td>
+          </tr>
+        } @else {
+          @for (row of rows(); track $index) {
+            <tr class="hover:bg-slate-50">
+              <ng-container
+                [ngTemplateOutlet]="rowTemplate()"
+                [ngTemplateOutletContext]="{ $implicit: row, index: $index }"
+              ></ng-container>
+            </tr>
+          }
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  @if (pagination(); as p) {
+    <div class="flex items-center justify-between text-sm text-slate-600">
+      <span>
+        {{ p.total }} total · page {{ p.page }} / {{ p.totalPages }}
+      </span>
+      <div class="flex gap-1">
+        <button
+          type="button"
+          class="rounded-md border border-slate-300 px-2.5 py-1 disabled:opacity-40"
+          [disabled]="p.page <= 1 || loading()"
+          (click)="goTo(p.page - 1)"
+        >
+          Prev
+        </button>
+        <button
+          type="button"
+          class="rounded-md border border-slate-300 px-2.5 py-1 disabled:opacity-40"
+          [disabled]="p.page >= p.totalPages || loading()"
+          (click)="goTo(p.page + 1)"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+  }
+</div>
