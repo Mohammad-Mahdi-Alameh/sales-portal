@@ -1,0 +1,348 @@
+const now = "2026-06-01T10:00:00.000Z";
+
+module.exports = {
+  staff: [
+    {
+      id: "staff_admin_001",
+      name: "Assessment Admin",
+      full_name: "Assessment Admin",
+      email: "admin@example.test",
+      account_type: "staff",
+      role: "admin",
+      enabled: true,
+      created_at: "2026-01-01T08:00:00.000Z",
+      updated_at: now
+    },
+    {
+      id: "staff_002",
+      name: "Sales Manager",
+      full_name: "Sales Manager",
+      email: "manager@example.test",
+      account_type: "staff",
+      role: "manager",
+      enabled: true,
+      created_at: "2026-01-10T08:00:00.000Z",
+      updated_at: now
+    },
+    {
+      id: "staff_003",
+      name: "Sales Associate",
+      full_name: "Sales Associate",
+      email: "associate@example.test",
+      account_type: "staff",
+      role: "staff",
+      enabled: true,
+      created_at: "2026-02-01T08:00:00.000Z",
+      updated_at: now
+    }
+  ],
+  clients: [
+    {
+      id: "client_001",
+      name: "Nour Hospitality",
+      email: "owner@example.test",
+      phone: "+9611000001",
+      company: "Nour Hospitality Group",
+      account_type: "client",
+      enabled: true,
+      salesId: "staff_admin_001",
+      orgId: "org_001",
+      isOrgAdmin: true,
+      created_at: "2026-01-05T09:00:00.000Z",
+      updated_at: now
+    },
+    {
+      id: "client_002",
+      name: "Standalone Owner",
+      email: "standalone@example.test",
+      phone: "+9611000002",
+      company: "Standalone Bistro",
+      account_type: "client",
+      enabled: true,
+      salesId: "staff_002",
+      orgId: null,
+      isOrgAdmin: false,
+      created_at: "2026-02-15T09:00:00.000Z",
+      updated_at: now
+    },
+    {
+      id: "client_003",
+      name: "Cedars Group Admin",
+      email: "cedars@example.test",
+      phone: "+9611000003",
+      company: "Cedars Group",
+      account_type: "client",
+      enabled: true,
+      salesId: "staff_003",
+      orgId: "org_002",
+      isOrgAdmin: true,
+      created_at: "2026-03-01T09:00:00.000Z",
+      updated_at: now
+    }
+  ],
+  organizations: [
+    {
+      id: "org_001",
+      orgId: "org_001",
+      name: "Nour Hospitality Group",
+      adminId: "client_001",
+      salesId: "staff_admin_001",
+      status: "active",
+      isActive: true,
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      billingEmail: "billing.nour@example.test",
+      createdAt: "2026-01-05T10:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "org_002",
+      orgId: "org_002",
+      name: "Cedars Group",
+      adminId: "client_003",
+      salesId: "staff_003",
+      status: "active",
+      isActive: true,
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      billingEmail: "billing.cedars@example.test",
+      createdAt: "2026-03-01T10:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "org_003",
+      orgId: "org_003",
+      name: "Inactive Sample Group",
+      adminId: "client_001",
+      salesId: "staff_002",
+      status: "inactive",
+      isActive: false,
+      country: "UAE",
+      timezone: "Asia/Dubai",
+      currency: "AED",
+      billingEmail: "inactive@example.test",
+      createdAt: "2026-04-01T10:00:00.000Z",
+      updatedAt: now
+    }
+  ],
+  branches: [
+    {
+      id: "branch_001",
+      branchId: "branch_001",
+      orgId: "org_001",
+      name: "Downtown Beirut",
+      active: true,
+      city: "Beirut",
+      country: "Lebanon",
+      createdAt: "2026-01-05T11:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "branch_002",
+      branchId: "branch_002",
+      orgId: "org_001",
+      name: "Seaside",
+      active: true,
+      city: "Jounieh",
+      country: "Lebanon",
+      createdAt: "2026-01-07T11:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "branch_003",
+      branchId: "branch_003",
+      orgId: "org_002",
+      name: "Cedars Central",
+      active: true,
+      city: "Byblos",
+      country: "Lebanon",
+      createdAt: "2026-03-02T11:00:00.000Z",
+      updatedAt: now
+    }
+  ],
+  venues: [
+    {
+      id: "venue_001",
+      name: "Nour Bistro",
+      owner: "client_001",
+      adminId: "client_001",
+      orgId: "org_001",
+      branchId: "branch_001",
+      salesId: "staff_admin_001",
+      status: "Active",
+      type: "restaurant",
+      city: "Beirut",
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      subscriptionTier: "pro",
+      renewalAt: "2026-07-20T00:00:00.000Z",
+      receiverEnabled: true,
+      qrEnabled: true,
+      offlineDevices: 1,
+      createdAt: "2026-01-05T12:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "venue_002",
+      name: "Nour Rooftop",
+      owner: "client_001",
+      adminId: "client_001",
+      orgId: "org_001",
+      branchId: "branch_002",
+      salesId: "staff_admin_001",
+      status: "Trial",
+      type: "restaurant",
+      city: "Jounieh",
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      subscriptionTier: "trial",
+      renewalAt: "2026-07-05T00:00:00.000Z",
+      receiverEnabled: true,
+      qrEnabled: true,
+      offlineDevices: 0,
+      createdAt: "2026-02-01T12:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "venue_003",
+      name: "Standalone Bistro",
+      owner: "client_002",
+      adminId: "client_002",
+      orgId: null,
+      branchId: null,
+      salesId: "staff_002",
+      status: "Active",
+      type: "restaurant",
+      city: "Batroun",
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      subscriptionTier: "starter",
+      renewalAt: "2026-08-15T00:00:00.000Z",
+      receiverEnabled: false,
+      qrEnabled: true,
+      offlineDevices: 0,
+      createdAt: "2026-02-15T12:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "venue_004",
+      name: "Cedars Lounge",
+      owner: "client_003",
+      adminId: "client_003",
+      orgId: "org_002",
+      branchId: "branch_003",
+      salesId: "staff_003",
+      status: "Inactive",
+      type: "club",
+      city: "Byblos",
+      country: "Lebanon",
+      timezone: "Asia/Beirut",
+      currency: "USD",
+      subscriptionTier: "pro",
+      renewalAt: "2026-09-01T00:00:00.000Z",
+      receiverEnabled: true,
+      qrEnabled: false,
+      offlineDevices: 2,
+      createdAt: "2026-03-05T12:00:00.000Z",
+      updatedAt: now
+    }
+  ],
+  serials: [
+    {
+      id: "RNB-0001",
+      serialKey: "RNB-0001",
+      enabled: true,
+      saleId: "staff_admin_001",
+      selectedClient: "client_001",
+      resturantId: "venue_001",
+      deviceId: "device_001",
+      notes: "Main receiver",
+      createdAt: "2026-01-06T10:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "RNB-0002",
+      serialKey: "RNB-0002",
+      enabled: true,
+      saleId: "staff_002",
+      selectedClient: "client_002",
+      resturantId: "venue_003",
+      deviceId: null,
+      notes: "Ready for assignment",
+      createdAt: "2026-02-16T10:00:00.000Z",
+      updatedAt: now
+    },
+    {
+      id: "RNB-0003",
+      serialKey: "RNB-0003",
+      enabled: false,
+      saleId: "staff_003",
+      selectedClient: "client_003",
+      resturantId: null,
+      deviceId: null,
+      notes: "Disabled sample",
+      createdAt: "2026-03-10T10:00:00.000Z",
+      updatedAt: now
+    }
+  ],
+  renewalSettings: {
+    enabled: true,
+    cadence: "weekly",
+    daysBeforeRenewal: [30, 14, 7, 1],
+    recipients: ["sales@example.test"],
+    updatedAt: now,
+    updatedBy: "staff_admin_001"
+  },
+  venueActivities: [
+    {
+      id: "activity_001",
+      venueId: "venue_001",
+      venueName: "Nour Bistro",
+      staffId: "staff_admin_001",
+      staffName: "Assessment Admin",
+      type: "renewal",
+      notes: "Discussed renewal plan and device status.",
+      createdAt: "2026-06-01T09:15:00.000Z"
+    }
+  ],
+  auditLogs: [
+    {
+      id: "audit_001",
+      staffId: "staff_admin_001",
+      staffEmail: "admin@example.test",
+      staffName: "Assessment Admin",
+      action: "organization.updated",
+      resource: "organization",
+      resourceId: "org_001",
+      organizationId: "org_001",
+      organizationName: "Nour Hospitality Group",
+      venueId: null,
+      venueName: null,
+      metadata: { status: "active" },
+      timestamp: "2026-06-01T09:00:00.000Z",
+      createdAt: "2026-06-01T09:00:00.000Z"
+    },
+    {
+      id: "audit_002",
+      staffId: "staff_002",
+      staffEmail: "manager@example.test",
+      staffName: "Sales Manager",
+      action: "serial.generated",
+      resource: "serial",
+      resourceId: "RNB-0002",
+      organizationId: null,
+      organizationName: null,
+      venueId: "venue_003",
+      venueName: "Standalone Bistro",
+      metadata: { selectedClient: "client_002" },
+      timestamp: "2026-06-01T09:30:00.000Z",
+      createdAt: "2026-06-01T09:30:00.000Z"
+    }
+  ]
+};
+

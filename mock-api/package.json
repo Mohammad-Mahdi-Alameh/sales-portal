@@ -1,0 +1,15 @@
+{
+  "name": "sales-portal-assessment-mock-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dependency-free mock API for the Ring n Bring sales portal assessment.",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+
