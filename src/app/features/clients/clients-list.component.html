@@ -1,0 +1,67 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-lg font-semibold text-slate-900">Clients</h1>
+      <p class="text-sm text-slate-500">People and companies that own venues</p>
+    </div>
+    <a
+      routerLink="/clients/new"
+      class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+    >
+      New client
+    </a>
+  </div>
+
+  @if (rowError()) {
+    <div class="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800" role="alert">
+      {{ rowError() }}
+    </div>
+  }
+
+  <app-data-table
+    [columns]="columns"
+    [rows]="rows()"
+    [loading]="loading()"
+    [error]="error()"
+    [pagination]="pagination()"
+    [searchTerm]="search()"
+    [sort]="sort()"
+    searchPlaceholder="Search clients…"
+    emptyTitle="No clients"
+    emptyMessage="Add a client to get started."
+    emptyActionLabel="New client"
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (pageChange)="load($event)"
+    (retry)="load()"
+    (emptyAction)="goNew()"
+  >
+    <ng-template #appRow let-client>
+      <td class="px-4 py-3">
+        <span class="font-medium text-slate-800">{{ client.name }}</span>
+      </td>
+      <td class="px-4 py-3 text-slate-600">{{ client.email }}</td>
+      <td class="px-4 py-3 text-slate-600">{{ client.company || '—' }}</td>
+      <td class="px-4 py-3 text-center text-slate-600">{{ client.venueCount ?? 0 }}</td>
+      <td class="px-4 py-3 text-right">
+        <div class="inline-flex gap-2">
+          <a
+            [routerLink]="['/clients', client.id, 'edit']"
+            class="rounded-md border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Edit
+          </a>
+          @if (isAdmin()) {
+            <button
+              type="button"
+              class="rounded-md border border-red-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+              (click)="remove(client)"
+            >
+              Delete
+            </button>
+          }
+        </div>
+      </td>
+    </ng-template>
+  </app-data-table>
+</div>
