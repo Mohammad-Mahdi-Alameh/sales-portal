@@ -1,0 +1,87 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-lg font-semibold text-slate-900">Branches</h1>
+      <p class="text-sm text-slate-500">Branches scoped to organizations</p>
+    </div>
+    <a
+      routerLink="/branches/new"
+      class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+    >
+      New branch
+    </a>
+  </div>
+
+  @if (rowError()) {
+    <div class="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+      {{ rowError() }}
+    </div>
+  }
+
+  <app-data-table
+    [columns]="columns"
+    [rows]="rows()"
+    [loading]="loading()"
+    [error]="error()"
+    [pagination]="pagination()"
+    [searchTerm]="search()"
+    [sort]="sort()"
+    searchPlaceholder="Search branches…"
+    emptyTitle="No branches"
+    emptyMessage="Create a branch under an organization."
+    emptyActionLabel="New branch"
+    (searchChange)="onSearch($event)"
+    (sortChange)="onSort($event)"
+    (pageChange)="load($event)"
+    (retry)="load()"
+    (emptyAction)="goNew()"
+  >
+    <div tableActions>
+      <select
+        class="rounded-md border border-slate-300 bg-white px-2.5 py-1.5 text-sm text-slate-700 focus:border-indigo-500 focus:outline-none"
+        aria-label="Filter by organization"
+        (change)="onOrgFilter($any($event.target).value)"
+      >
+        <option value="">All organizations</option>
+        @for (o of organizations(); track o.id) {
+          <option [value]="o.id">{{ o.name }}</option>
+        }
+      </select>
+    </div>
+
+    <ng-template #appRow let-branch>
+      <td class="px-4 py-3 font-medium text-slate-700">{{ branch.name }}</td>
+      <td class="px-4 py-3 text-slate-600">{{ branch.orgName || '—' }}</td>
+      <td class="px-4 py-3 text-slate-600">{{ branch.city || '—' }}</td>
+      <td class="px-4 py-3 text-center text-slate-600">{{ branch.venueCount ?? 0 }}</td>
+      <td class="px-4 py-3 text-center">
+        <span
+          class="inline-flex rounded-full px-2 py-0.5 text-xs font-medium"
+          [class.bg-emerald-100]="branch.active"
+          [class.text-emerald-700]="branch.active"
+          [class.bg-slate-100]="!branch.active"
+          [class.text-slate-500]="!branch.active"
+        >
+          {{ branch.active ? 'Active' : 'Inactive' }}
+        </span>
+      </td>
+      <td class="px-4 py-3 text-right">
+        <div class="flex justify-end gap-1">
+          <a
+            [routerLink]="['/branches', branch.id, 'edit']"
+            class="rounded-md border border-slate-300 px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50"
+          >
+            Edit
+          </a>
+          <button
+            type="button"
+            class="rounded-md border border-red-300 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50"
+            (click)="remove(branch)"
+          >
+            Delete
+          </button>
+        </div>
+      </td>
+    </ng-template>
+  </app-data-table>
+</div>
