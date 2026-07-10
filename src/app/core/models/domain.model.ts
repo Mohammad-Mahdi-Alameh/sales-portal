@@ -19,6 +19,7 @@ export interface Client {
   id: string;
   name: string;
   email: string;
+  notes?: string;
   phone?: string;
   company?: string;
   account_type?: 'client';

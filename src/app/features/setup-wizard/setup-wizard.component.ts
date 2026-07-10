@@ -35,7 +35,8 @@ export class SetupWizardComponent {
 
   protected readonly clientForm = this.fb.nonNullable.group({
     name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]],
+    email: ['', [Validators.required, Validators.email]],
+    notes: [''],
     phone: [''],
     company: [''],
   });

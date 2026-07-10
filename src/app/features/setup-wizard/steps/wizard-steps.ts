@@ -11,6 +11,7 @@ import { WizardStateService } from '../services/wizard-state.service';
 export type ClientForm = FormGroup<{
   name: FormControl<string>;
   email: FormControl<string>;
+  notes: FormControl<string>;
   phone: FormControl<string>;
   company: FormControl<string>;
 }>;
@@ -109,6 +110,15 @@ export class WizardPathStepComponent {
         @if (form().controls.email.touched && form().controls.email.invalid) {
           <p class="text-xs text-red-600">Enter a valid email.</p>
         }
+      </div>
+      <div class="flex flex-col gap-1">
+        <label class="text-sm font-medium text-slate-700">Notes</label>
+        <input
+          type="text"
+          aria-label="Notes"
+          formControlName="notes"
+          class="rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+        />
       </div>
       <div class="grid grid-cols-2 gap-3">
         <div class="flex flex-col gap-1">
@@ -310,6 +320,7 @@ export class WizardVenueStepComponent {
         <dl class="grid grid-cols-2 gap-1 text-sm">
           <dt class="text-slate-400">Name</dt><dd class="text-slate-700">{{ d().client.name }}</dd>
           <dt class="text-slate-400">Email</dt><dd class="text-slate-700">{{ d().client.email }}</dd>
+          <dt class="text-slate-400">Notes</dt><dd class="text-slate-700">{{ d().client.notes || '—' }}</dd>
           <dt class="text-slate-400">Phone</dt><dd class="text-slate-700">{{ d().client.phone || '—' }}</dd>
           <dt class="text-slate-400">Company</dt><dd class="text-slate-700">{{ d().client.company || '—' }}</dd>
         </dl>

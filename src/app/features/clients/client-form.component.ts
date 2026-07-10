@@ -28,6 +28,7 @@ export class ClientFormComponent implements OnInit {
   protected readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email, Validators.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)]],
+    notes: [''],
     phone: [''],
     company: [''],
   });
@@ -44,6 +45,7 @@ export class ClientFormComponent implements OnInit {
           email: client.email,
           phone: client.phone ?? '',
           company: client.company ?? '',
+          notes: client.notes ?? '',
         });
         this.loading.set(false);
       },
@@ -65,6 +67,7 @@ export class ClientFormComponent implements OnInit {
       email: raw.email,
       phone: raw.phone || undefined,
       company: raw.company || undefined,
+      notes: raw.notes || undefined,
     };
 
     const id = this.id();

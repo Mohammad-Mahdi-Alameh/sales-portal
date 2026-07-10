@@ -9,7 +9,7 @@ import { ApiError } from '../../../core/models/api.model';
 export type WizardPath = 'organization' | 'standalone';
 
 export interface WizardData {
-  client: { name: string; email: string; phone: string; company: string };
+  client: { name: string; email: string; notes: string; phone: string; company: string };
   organization: { name: string; country: string; timezone: string; currency: string };
   branch: { name: string; city: string; country: string; active: boolean };
   venue: { name: string; type: string; timezone: string; currency: string };
@@ -31,7 +31,7 @@ export interface WizardStep {
 const STORAGE_KEY = 'sp.wizard';
 
 const EMPTY_DATA: WizardData = {
-  client: { name: '', email: '', phone: '', company: '' },
+  client: { name: '', email: '', notes: '', phone: '', company: '' },
   organization: { name: '', country: 'JO', timezone: 'Asia/Amman', currency: 'JOD' },
   branch: { name: '', city: '', country: '', active: true },
   venue: { name: '', type: 'restaurant', timezone: 'Asia/Amman', currency: 'JOD' },
@@ -95,10 +95,6 @@ export class WizardStateService {
 
   isTouched(field: string): boolean {
     return this.touched().has(field);
-  }
-
-  emailValid(email: string): boolean {
-    return WizardStateService.EMAIL_RE.test(email);
   }
 
   readonly steps = computed<WizardStep[]>(() =>
@@ -188,12 +184,14 @@ export class WizardStateService {
       // 1. Client (both paths)
       if (!ids.clientId) {
         this.progressMessage.set('Creating client…');
+        // console.log('Creating client with data:', data.client);
         const client = await firstValueFrom(
           this.clients.create({
             name: data.client.name,
             email: data.client.email,
             phone: data.client.phone || undefined,
             company: data.client.company || undefined,
+            notes: data.client.notes || undefined,
           }),
         );
         ids.clientId = client.id;
